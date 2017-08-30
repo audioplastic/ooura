@@ -7,7 +7,8 @@ class Ooura {
         this.w = new Float32Array(size/2);
         this.buffer = new Float32Array(size);
 
-        init.makewt(size/4, this.ip.buffer, this.w.buffer)
+        init.makewt(size/4, this.ip.buffer, this.w.buffer);
+        init.makect(size/4, this.ip.buffer, this.w.buffer, size/4)
     }
 }
 module.exports = Ooura;

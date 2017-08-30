@@ -31,3 +31,24 @@ exports.makewt = function(nw, ipBuffer, wBuffer) {
         }
     }
 }
+
+exports.makect = function(nc, ipBuffer, cBuffer, cOffset) {
+    let j, nch;
+    let delta;
+
+    // setup views
+    ip = new Float32Array(ipBuffer);
+    c  = new Float32Array(cBuffer).subarray(cOffset);
+
+    ip[1] = nc;
+    if (nc > 1) {
+        nch = nc >> 1;
+        delta = Math.atan(1.0) / nch;
+        c[0] = Math.cos(delta * nch);
+        c[nch] = 0.5 * c[0];
+        for (j = 1; j < nch; j++) {
+            c[j] = 0.5 * Math.cos(delta * j);
+            c[nc - j] = 0.5 * Math.sin(delta * j);
+        }
+    }
+}
