@@ -11,7 +11,10 @@
     "ooura",
     "audio",
     "ifft",
-    "stft"
+    "stft",
+    "dsp",
+    "overlap-add",
+    "ola"
   ],
   "author": "Nick Clark",
   "license": "ISC",
