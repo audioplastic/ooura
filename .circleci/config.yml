@@ -34,4 +34,4 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests! (with a naff command handling CircleCI crusty node versions)
-      - run: npm test
+      - run: npm run coveralls

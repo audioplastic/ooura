@@ -5,7 +5,9 @@
   "repository": "https://github.com/audioplastic/ooura",
   "main": "ooura.js",
   "scripts": {
-    "test": "jasmine"
+    "test": "jasmine",
+    "cover": "istanbul cover jasmine",
+    "coveralls": "istanbul cover jasmine && istanbul-coveralls"
   },
   "keywords": [
     "fft",
@@ -20,6 +22,8 @@
   "author": "Nick Clark",
   "license": "ISC",
   "devDependencies": {
+    "istanbul": "^0.4.5",
+    "istanbul-coveralls": "^1.0.3",
     "jasmine": "^2.8.0"
   }
 }
