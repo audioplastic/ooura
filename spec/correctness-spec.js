@@ -45,6 +45,11 @@ var TestCorrectness = function(reRef, imRef) {
 
 describe("Function of the FFT routines", function () {
 
+    it("should pass testing of the test helper function 'CheckBuffers'", function () {
+        expect(CheckBuffers([1,2,3,4], [1,2,3,4])).toEqual(0);
+        expect(CheckBuffers([1,2,3,4], [1,2.2,3,4.2])).toEqual(2);
+    });
+
     it("should work for real size 2", function () {
         let re = new Float64Array([ 3.0000000,-1.0000000 ]);
         let im = new Float64Array([ 0.00000000,0.00000000 ]);
