@@ -1,4 +1,4 @@
-var DIRECTION = {
+const DIRECTION = {
     "FORWARDS": +1,
     "BACKWARDS": -1
 };
