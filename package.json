@@ -1,0 +1,21 @@
+{
+  "name": "ooura",
+  "version": "1.0.0",
+  "description": "A javascript port of the Ooura FFT implementation",
+  "main": "ooura.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "keywords": [
+    "fft",
+    "ooura",
+    "audio",
+    "ifft",
+    "stft"
+  ],
+  "author": "Nick Clark",
+  "license": "ISC",
+  "devDependencies": {
+    "jasmine": "^2.8.0"
+  }
+}
