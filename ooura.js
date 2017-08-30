@@ -1,4 +1,4 @@
-var bit = require('./bitrv2.js')
+var child = require('./bitrv2.js')
 
 class Ooura {
     constructor(size) {
@@ -32,7 +32,7 @@ class Ooura {
                     w[nw - j] = y;
                     w[nw - j + 1] = x;
                 }
-                bit.bitrv2(nw, ip.buffer, 2, w.buffer);
+                child.bitrv2(nw, ip.buffer, 2, w.buffer);
             }
         }
         // pointerTest(buffer.buffer);
