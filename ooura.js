@@ -12,6 +12,22 @@ class Ooura {
         init.makect(size/4, this.ip.buffer, this.w.buffer, size/4)
     }
 
+    static complexSize(n) {
+        return (n / 2) + 1;
+    }
+
+    static realSize(n) {
+        return (n - 1) * 2;
+    }
+
+    getRealSize() {
+        return this.size;
+    }
+
+    getComplexSize() {
+        return Ooura.complexSize(this.size);
+    }
+
     fft(dataBuffer, reBuffer, imBuffer) {
         let data = new Float64Array(dataBuffer);
         this.buffer.set(data);
