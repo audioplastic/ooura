@@ -5,7 +5,7 @@ Ooura FFT javascript port
 | :---    | :---   | :---    |
 | CI Status  |  [![Circle Status](https://circleci.com/gh/audioplastic/ooura/tree/master.png?circle-token=63d6565456f01dec4f3c77d14bef5a1ce4e7143a)](https://circleci.com/gh/audioplastic/ooura) | [![Circle Status](https://circleci.com/gh/audioplastic/ooura/tree/develop.png?circle-token=63d6565456f01dec4f3c77d14bef5a1ce4e7143a)](https://circleci.com/gh/audioplastic/ooura) |
 
-This is a dependency-free straight port of Takuya Ooura's C/Fortran FFT implementation. I wanted a 1D FFT implementation in Javascript that I can trust for audio work, and the Ooura implementation is a very portable and resonable performant FFT implementation that lends itself well to a porting project.
+This is a dependency-free straight port of Takuya Ooura's [C/Fortran FFT implementation](http://www.kurims.kyoto-u.ac.jp/~ooura/fft.html). I wanted a 1D FFT implementation in Javascript that I can trust for audio work, and the Ooura implementation is a very portable and resonable performant FFT implementation that lends itself well to a porting project.
 
 The js implementation has been tested using the for power-of-2 FFT sizes  against trusted reference values down to a double precision tolerance of 1e-12.
 
@@ -52,22 +52,3 @@ re = 20,0,-4,0,-4
 im = 0,0,4,0,0
 op = 1,2,3,4,1,2,3,4
 ```
-
-The C/Fortran versions are bundled in the ooura-original directory (as permitted by the original software license).
-
-
-ISC license
------------
-Copyright (c) 2017 Nick Clark
-
-Permission to use, copy, modify, and distribute this software for any
-purpose with or without fee is hereby granted, provided that the above
-copyright notice and this permission notice appear in all copies.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
-OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
