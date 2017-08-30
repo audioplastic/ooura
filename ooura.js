@@ -1,8 +1,11 @@
 var init = require('./init.js')
 var trans = require('./transform.js')
+const assert = require('assert');
 
 class Ooura {
     constructor(size) {
+        assert(  Ooura.isPowerOf2(size) );
+
         this.size = size;
         this.ip = new Int16Array( 2 + Math.sqrt(size) );
         this.w = new Float64Array(size/2);
@@ -13,11 +16,19 @@ class Ooura {
     }
 
     static complexSize(n) {
+        assert(  Ooura.isPowerOf2(n) );
         return (n / 2) + 1;
     }
 
     static realSize(n) {
-        return (n - 1) * 2;
+        const result =  (n - 1) * 2;
+        assert(  Ooura.isPowerOf2(result) );
+        return result;
+    }
+
+    static isPowerOf2(n) {
+        if (typeof n !== 'number') {return 'Not a number'};
+        return n && (n & (n - 1)) === 0;
     }
 
     getRealSize() {
