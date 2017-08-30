@@ -1,4 +1,4 @@
-var child = require('./bitrv2.js')
+var child = require('./child.js')
 
 class Ooura {
     constructor(size) {
@@ -42,8 +42,3 @@ class Ooura {
     }
 }
 module.exports = Ooura;
-
-var pointerTest = function(data) {
-    dataView = new Float32Array(data);
-    dataView[0] = 123.0;
-}
