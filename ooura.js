@@ -15,14 +15,21 @@ class Ooura {
     fft(dataBuffer, reBuffer, imBuffer) {
         let data = new Float64Array(dataBuffer);
         this.buffer.set(data);
-        // this.buffer[0] = 100
 
         trans.rdft(this.size, trans.DIRECTION.FORWARDS, this.buffer.buffer, this.ip.buffer, this.w.buffer)
 
-        // post cleanup
         let im = new Float64Array(imBuffer);
         let re = new Float64Array(reBuffer);
 
+        //de-interleave data
+        let nn = 0;
+        let mm = 0;
+        while (nn != this.size) {
+            re[nn] = this.buffer[mm++];
+            im[nn++] = -this.buffer[mm++];
+        }
+
+        // post cleanup
         re[this.size/2] = -im[0];
         im[0] = 0.0;
         im[this.size/2] = 0.0;
