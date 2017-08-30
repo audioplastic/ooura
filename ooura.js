@@ -14,8 +14,6 @@ ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
-'use strict'
-
 var init = require('./init.js')
 var trans = require('./transform.js')
 const assert = require('assert');

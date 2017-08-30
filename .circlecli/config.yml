@@ -33,5 +33,5 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      # run tests!
-      - run: npm test
+      # run tests! (with a naff command handling CircleCI crusty node versions)
+      - run: npm run test-babel

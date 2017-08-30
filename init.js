@@ -21,8 +21,8 @@ exports.makewt = function(nw, ipBuffer, wBuffer) {
     let delta, x, y;
 
     // setup views
-    ip = new Int16Array(ipBuffer);
-    w  = new Float64Array(wBuffer);
+    let ip = new Int16Array(ipBuffer);
+    let w  = new Float64Array(wBuffer);
 
     ip[0] = nw;
     ip[1] = 1;
@@ -53,8 +53,8 @@ exports.makect = function(nc, ipBuffer, cBuffer, cOffset) {
     let delta;
 
     // setup views
-    ip = new Int16Array(ipBuffer);
-    c  = new Float64Array(cBuffer).subarray(cOffset);
+    let ip = new Int16Array(ipBuffer);
+    let c  = new Float64Array(cBuffer).subarray(cOffset);
 
     ip[1] = nc;
     if (nc > 1) {

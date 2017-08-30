@@ -2,9 +2,11 @@
   "name": "ooura",
   "version": "1.0.0",
   "description": "A javascript port of the Ooura FFT implementation",
+  "repository": "https://github.com/audioplastic/ooura",
   "main": "ooura.js",
   "scripts": {
-    "test": "jasmine"
+    "test": "jasmine",
+    "test-babel": "babel-node spec/run.js"
   },
   "keywords": [
     "fft",
@@ -19,6 +21,8 @@
   "author": "Nick Clark",
   "license": "ISC",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
     "jasmine": "^2.8.0"
   }
 }

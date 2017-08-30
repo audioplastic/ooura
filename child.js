@@ -219,8 +219,7 @@ exports.cftbsub = function(n, aBuffer, wBuffer){
     }
 }
 
-cft1st = function(n, aBuffer, wBuffer)
-{
+var cft1st = function(n, aBuffer, wBuffer) {
     let j, k1, k2;
     let wk1r, wk1i, wk2r, wk2i, wk3r, wk3i;
     let x0r, x0i, x1r, x1i, x2r, x2i, x3r, x3i;
@@ -327,7 +326,7 @@ cft1st = function(n, aBuffer, wBuffer)
 }
 
 
-cftmdl = function(n, l, aBuffer, wBuffer)
+var cftmdl = function(n, l, aBuffer, wBuffer)
 {
     let j, j1, j2, j3, k, k1, k2, m, m2;
     let wk1r, wk1i, wk2r, wk2i, wk3r, wk3i;
