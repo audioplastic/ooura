@@ -4,7 +4,7 @@ exports.bitrv2 = function(n, ipBuffer, ipOffset, aBuffer) {
 
     // create some views on the raw buffers
     let ip = new Int16Array(ipBuffer).subarray(ipOffset);
-    let a = new Float32Array(aBuffer);
+    let a = new Float64Array(aBuffer);
 
     ip[0] = 0;
     l = n;
@@ -110,10 +110,10 @@ exports.cftfsub = function(n, aBuffer, wBuffer) {
 
     l = 2;
     if (n > 8) {
-        cft1st(n, a, w);
+        cft1st(n, a.buffer, w.buffer);
         l = 8;
         while ((l << 2) < n) {
-            cftmdl(n, l, a, w);
+            cftmdl(n, l, a.buffer, w.buffer);
             l <<= 2;
         }
     }
@@ -161,10 +161,10 @@ exports.cftbsub = function(n, aBuffer, wBuffer){
 
     l = 2;
     if (n > 8) {
-        cft1st(n, a, w);
+        cft1st(n, a.buffer, w.buffer);
         l = 8;
         while ((l << 2) < n) {
-            cftmdl(n, l, a, w);
+            cftmdl(n, l, a.buffer, w.buffer);
             l <<= 2;
         }
     }
@@ -441,13 +441,13 @@ cftmdl = function(n, l, aBuffer, wBuffer)
 }
 
 
-exports.rftfsub = function(n, aBuffer, nc, cBuffer)
+exports.rftfsub = function(n, aBuffer, nc, cBuffer, cOffset)
 {
     let j, k, kk, ks, m;
     let wkr, wki, xr, xi, yr, yi;
 
     let a = new Float64Array(aBuffer);
-    let c = new Float64Array(cBuffer);
+    let c = new Float64Array(cBuffer).subarray(cOffset);
 
     m = n >> 1;
     ks = 2 * nc / m;
@@ -469,13 +469,13 @@ exports.rftfsub = function(n, aBuffer, nc, cBuffer)
 }
 
 
-exports.rftbsub = function(n, aBuffer, nc, cBuffer)
+exports.rftbsub = function(n, aBuffer, nc, cBuffer, cOffset)
 {
     let j, k, kk, ks, m;
     let wkr, wki, xr, xi, yr, yi;
 
     let a = new Float64Array(aBuffer);
-    let c = new Float64Array(cBuffer);
+    let c = new Float64Array(cBuffer).subarray(cOffset);
 
     a[1] = -a[1];
     m = n >> 1;

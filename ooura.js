@@ -1,4 +1,5 @@
 var init = require('./init.js')
+var trans = require('./transform.js')
 
 class Ooura {
     constructor(size) {
@@ -11,8 +12,20 @@ class Ooura {
         init.makect(size/4, this.ip.buffer, this.w.buffer, size/4)
     }
 
-    fft() {
+    fft(dataBuffer, reBuffer, imBuffer) {
+        let data = new Float64Array(dataBuffer);
+        this.buffer.set(data);
+        // this.buffer[0] = 100
 
+        trans.rdft(this.size, trans.DIRECTION.FORWARDS, this.buffer.buffer, this.ip.buffer, this.w.buffer)
+
+        // post cleanup
+        let im = new Float64Array(imBuffer);
+        let re = new Float64Array(reBuffer);
+
+        re[this.size/2] = -im[0];
+        im[0] = 0.0;
+        im[this.size/2] = 0.0;
     }
 
     ifft() {
