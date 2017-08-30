@@ -1,6 +1,10 @@
 Ooura FFT javascript port
 ===============================
 
+| Service | Master | Develop |
+| :---    | :---   | :---    |
+| CI Status  |  [![Circle Status](https://circleci.com/gh/audioplastic/ooura/tree/master.png?circle-token=63d6565456f01dec4f3c77d14bef5a1ce4e7143a)](https://circleci.com/gh/audioplastic/ooura) | [![Circle Status](https://circleci.com/gh/audioplastic/ooura/tree/develop.png?circle-token=63d6565456f01dec4f3c77d14bef5a1ce4e7143a)](https://circleci.com/gh/audioplastic/ooura) |
+
 This is a dependency-free straight port of Takuya Ooura's C/Fortran FFT implementation. I wanted a 1D FFT implementation in Javascript that I can trust for audio work, and the Ooura implementation is a very portable and resonable performant FFT implementation that lends itself well to a porting project.
 
 The js implementation has been tested using the for power-of-2 FFT sizes  against trusted reference values down to a double precision tolerance of 1e-12.
