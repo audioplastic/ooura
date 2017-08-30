@@ -1,5 +1,3 @@
-//TODO: Check exports and only do when necessary
-
 exports.bitrv2 = function(n, ipBuffer, ipOffset, aBuffer) {
     let j, j1, k, k1, l, m, m2;
     let xr, xi, yr, yi;
@@ -205,7 +203,7 @@ exports.cftbsub = function(n, aBuffer, wBuffer){
     }
 }
 
-exports.cft1st = function(n, aBuffer, wBuffer)
+cft1st = function(n, aBuffer, wBuffer)
 {
     let j, k1, k2;
     let wk1r, wk1i, wk2r, wk2i, wk3r, wk3i;
@@ -313,7 +311,7 @@ exports.cft1st = function(n, aBuffer, wBuffer)
 }
 
 
-exports.cftmdl = function(n, l, aBuffer, wBuffer)
+cftmdl = function(n, l, aBuffer, wBuffer)
 {
     let j, j1, j2, j3, k, k1, k2, m, m2;
     let wk1r, wk1i, wk2r, wk2i, wk3r, wk3i;
