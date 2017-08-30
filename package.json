@@ -7,7 +7,7 @@
   "scripts": {
     "test": "jasmine",
     "cover": "istanbul cover jasmine",
-    "coveralls": "istanbul cover jasmine && istanbul-coveralls"
+    "coveralls": "istanbul cover jasmine && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "keywords": [
     "fft",
@@ -22,8 +22,8 @@
   "author": "Nick Clark",
   "license": "ISC",
   "devDependencies": {
+    "coveralls": "^2.13.1",
     "istanbul": "^0.4.5",
-    "istanbul-coveralls": "^1.0.3",
     "jasmine": "^2.8.0"
   }
 }
