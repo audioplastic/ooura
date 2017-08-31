@@ -1,20 +1,19 @@
 describe("For the readme example", function () {
 
     it("should actually work without crashing", function () {
-        var Ooura = require('../ooura.js');
+        var ooura = require('../ooura.js');
 
-        // Set up an input signal of zise 8;
-        let input = new Float64Array([1,2,3,4,1,2,3,4])
-        const nfft = input.length;
-        let output = new Float64Array(nfft);
+        // Set up an input signal of size 8;
+        let input = new Float64Array([1,2,3,4,1,2,3,4]);
 
-        //helper to get single sided complex size
-        const nclx = Ooura.complexSize(nfft);
-        let re = new Float64Array(nclx);
-        let im = new Float64Array(nclx);
+        // Set up the fft object and use a helper to generate an output array
+        // of corrct length and type.
+        let oo = new ooura(input.length);
+        let output = oo.scalarArrayFactory();
 
-        //initialise an fft of fixed length
-        let oo = new Ooura(nfft);
+        //helper to get single sided complex arrays
+        let re = oo.vectorArrayFactory();
+        let im = oo.vectorArrayFactory();
 
         //do some FFTing in both directions
         //note: reference underlying array buffers for in-place processing

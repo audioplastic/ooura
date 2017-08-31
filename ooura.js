@@ -31,13 +31,15 @@ class Ooura {
         init.makect(size/4, this.ip.buffer, this.w.buffer, size/4)
     }
 
-    static complexSize(n) {
-        assert(  Ooura.isPowerOf2(n) );
-        return (n / 2) + 1;
+    // returns complex vector size given one dimensional scalar size
+    static vectorSize(scalarSize) {
+        assert(  Ooura.isPowerOf2(scalarSize) );
+        return (scalarSize / 2) + 1;
     }
 
-    static realSize(n) {
-        const result =  (n - 1) * 2;
+    // inverse fucntion of vector size
+    static scalarSize(vectorSize) {
+        const result =  (vectorSize - 1) * 2;
         assert(  Ooura.isPowerOf2(result) );
         return result;
     }
@@ -47,12 +49,22 @@ class Ooura {
         return n && (n & (n - 1)) === 0;
     }
 
-    getRealSize() {
+    getScalarSize() {
         return this.size;
     }
 
-    getComplexSize() {
-        return Ooura.complexSize(this.size);
+    getVectorSize() {
+        return Ooura.vectorSize(this.size);
+    }
+
+    // Helper factory functions returning correct array and data size for a
+    // given fft setup;
+    scalarArrayFactory() {
+        return new Float64Array(this.getScalarSize());
+    }
+
+    vectorArrayFactory() {
+        return new Float64Array(this.getVectorSize());
     }
 
     fft(dataBuffer, reBuffer, imBuffer) {
@@ -95,6 +107,16 @@ class Ooura {
 
         let data = new Float64Array(dataBuffer);
         data.set(  this.internal.map(x => x * 2/this.size)  );
+    }
+
+    // No-nonsense thin wrappers around the interleaved in-place data
+    // representation with no scaling, for maximum throughput.
+    fftInPlace(dataBuffer) {
+        trans.rdft(this.size, trans.DIRECTION.FORWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
+    }
+
+    ifftInPlace(dataBuffer) {
+        trans.rdft(this.size, trans.DIRECTION.BACKWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
     }
 }
 module.exports = Ooura;
