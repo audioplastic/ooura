@@ -12,7 +12,7 @@ Ooura FFT javascript port
 
 This is a dependency-free straight port of Takuya Ooura's [C/Fortran FFT implementation](http://www.kurims.kyoto-u.ac.jp/~ooura/fft.html). I wanted a 1D FFT implementation in Javascript that I can trust for audio work, and the Ooura implementation is a very portable and resonable performant FFT implementation that lends itself well to a porting project.
 
-The js implementation has been tested using the for power-of-2 FFT sizes  against trusted reference values down to a double precision tolerance of 1e-12. To test yourself, clone the repository from github and run `npm install` to install jasmine (test runner), then run `npm test`.
+The js implementation has been tested using the for power-of-2 FFT sizes against trusted reference values down to a double precision tolerance of 1e-8. To test yourself, clone the repository from github and run `npm install` to install (just to install the test runner), then run `npm test`.
 
 Usage
 -----

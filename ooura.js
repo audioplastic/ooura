@@ -43,7 +43,7 @@ class Ooura {
     }
 
     static isPowerOf2(n) {
-        if (typeof n !== 'number') {return 'Not a number'};
+        if (typeof n !== 'number') {return false}
         return n && (n & (n - 1)) === 0;
     }
 

@@ -18,4 +18,12 @@ describe("During object setup", function () {
         expect(Ooura.realSize(17)).toBe(32);
         expect(Ooura.realSize(65)).toBe(128);
     });
+
+    it("should have a functional pow2 member helper", function () {
+        expect(Ooura.isPowerOf2(64)).toBeTruthy();
+        expect(Ooura.isPowerOf2(8)).toBeTruthy();
+        expect(Ooura.isPowerOf2(77)).toBeFalsy();
+        expect(Ooura.isPowerOf2(123)).toBeFalsy();
+        expect(Ooura.isPowerOf2("Marmot")).toBeFalsy();
+    });
 });
