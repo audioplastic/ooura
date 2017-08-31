@@ -1,4 +1,4 @@
-Ooura FFT javascript port
+Ooura FFT [![npm version](https://badge.fury.io/js/ooura.svg)](https://badge.fury.io/js/ooura)
 ===============================
 
 Fast 1-dimensional complex FFT with simple interface.
