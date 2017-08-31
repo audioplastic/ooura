@@ -1,7 +1,7 @@
 Ooura FFT javascript port
 ===============================
 
-Super fast 1-dimensional complex FFT with simple interface.
+Fast 1-dimensional complex FFT with simple interface.
 
 ```
 > npm install ooura
@@ -12,14 +12,18 @@ Super fast 1-dimensional complex FFT with simple interface.
 | Circle CI  |  [![Circle Status](https://circleci.com/gh/audioplastic/ooura/tree/master.png?circle-token=63d6565456f01dec4f3c77d14bef5a1ce4e7143a)](https://circleci.com/gh/audioplastic/ooura) | [![Circle Status](https://circleci.com/gh/audioplastic/ooura/tree/develop.png?circle-token=63d6565456f01dec4f3c77d14bef5a1ce4e7143a)](https://circleci.com/gh/audioplastic/ooura) |
 | Coveralls | [![Coverage Status](https://coveralls.io/repos/github/audioplastic/ooura/badge.svg?branch=master)](https://coveralls.io/github/audioplastic/ooura?branch=master) | [![Coverage Status](https://coveralls.io/repos/github/audioplastic/ooura/badge.svg?branch=develop)](https://coveralls.io/github/audioplastic/ooura?branch=develop) |
 
-This is a dependency-free js port of Takuya Ooura's [C/Fortran FFT implementation](http://www.kurims.kyoto-u.ac.jp/~ooura/fft.html). I wanted a fast 1D FFT implementation in Javascript that I can trust for audio work, and the Ooura implementation is a very portable and resonable performant FFT implementation that lends itself well to a porting. There is plenty of scope for further optimisation.
+This is a dependency-free js port of Takuya Ooura's [C/Fortran FFT implementation](http://www.kurims.kyoto-u.ac.jp/~ooura/fft.html). I wanted a fast 1D FFT implementation in Javascript that I can trust for audio work, and the Ooura implementation is a very portable and reasonable performant FFT implementation that lends itself well to a porting. There is plenty of scope for further optimisation.
 
-The js implementation has been tested using the for power-of-2 FFT sizes against trusted reference values down to a tight tolerance. To test yourself, clone the repository from github and run `npm install` to install (just to install the test runner), then run `npm test`.
+### Performance
+![latest performance](https://github.com/audioplastic/fft-js-benchmark/raw/master/img/31-8-2017.png)
 
-Usage
------
+For a wide range of useful FFT sizes, ooura has higher throughput than other Node FFT packages tested. There is still plenty of scope for optimisation road-mapped for future releases. For details on benchmarking, see [this](https://github.com/audioplastic/fft-js-benchmark) dedicated repository.
 
-This implementation performs in place single sided FFT and inverse-FFT on double precision javascript `TypedArray`. Below is an example of typical usage, and faster in-place interleaved FFT operations are also available.
+### Correctness
+This implementation has been tested using power-of-2 FFT sizes against trusted reference values (however, I accept no responsibility if this trashes your app, or for any other damages). To test yourself, clone the repository from GitHub and run `npm install` to install (just to install the test runner), then run `npm test`.
+
+### Usage
+This implementation performs in place single sided FFT and inverse-FFT on double precision javascript `TypedArray`. Below is an example of typical extraction of the split-complex spectrum, and back conversion. Faster in-place interleaved FFT operations are also available.
 
 ```js
 var ooura = require('ooura');
@@ -28,7 +32,7 @@ var ooura = require('ooura');
 let input = new Float64Array([1,2,3,4,1,2,3,4]);
 
 // Set up the fft object and use a helper to generate an output array
-// of corrct length and type.
+// of correct length and type.
 let oo = new ooura(input.length);
 let output = oo.scalarArrayFactory();
 
