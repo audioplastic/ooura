@@ -1,6 +1,6 @@
 {
   "name": "ooura",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A javascript port of the Ooura FFT implementation",
   "repository": "https://github.com/audioplastic/ooura",
   "main": "ooura.js",
