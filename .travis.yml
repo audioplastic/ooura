@@ -1,9 +1,7 @@
 os: osx
 language: node_js
 node_js:
-  - "iojs"
   - "7"
 cache:
   directories:
     - "node_modules"
-    
