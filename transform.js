@@ -1,3 +1,5 @@
+// TODO: REMOVE UNECCESARY VIEWS
+
 const DIRECTION = {
     "FORWARDS": +1,
     "BACKWARDS": -1
@@ -44,5 +46,19 @@ exports.rdft = function(n, dir, aBuffer, ipBuffer, wBuffer) {
         {
             child.cftfsub(n, a.buffer, w.buffer);
         }
+    }
+}
+
+exports.cdft = function(n, dir, aBuffer, ipBuffer, wBuffer) {
+    if (n > 4) {
+        if (dir == DIRECTION.FORWARDS) {
+            child.bitrv2(n, ipBuffer, 2, aBuffer);
+            child.cftfsub(n, aBuffer, wBuffer);
+        } else {
+            child.bitrv2conj(n, ipBuffer, 2, aBuffer);
+            child.cftbsub(n, aBuffer, wBuffer);
+        }
+    } else if (n == 4) {
+        cftfsub(n, aBuffer, wBuffer);
     }
 }

@@ -3,16 +3,21 @@ var trans = require('./transform.js')
 const assert = require('assert');
 
 class Ooura {
-    constructor(size) {
+    constructor( size, info = {"type":"real", "radix":4} ) {
         assert(  Ooura.isPowerOf2(size) );
 
+        this.real = (info.type === "real");
         this.size = size;
         this.ip = new Int16Array( 2 + Math.sqrt(size) );
         this.w = new Float64Array(size/2);
         this.internal = new Float64Array(size);
 
         init.makewt(size/4, this.ip.buffer, this.w.buffer);
-        init.makect(size/4, this.ip.buffer, this.w.buffer, size/4)
+
+        // perform additional modification if real
+        if (info.type == "real") {
+            init.makect(size/4, this.ip.buffer, this.w.buffer, size/4)
+        }
     }
 
     // returns complex vector size given one dimensional scalar size
@@ -93,14 +98,22 @@ class Ooura {
         data.set(  this.internal.map(x => x * 2/this.size)  );
     }
 
-    // No-nonsense thin wrappers around the interleaved in-place data
+    // Below: No-nonsense thin wrappers around the interleaved in-place data
     // representation with no scaling, for maximum throughput.
     fftInPlace(dataBuffer) {
-        trans.rdft(this.size, trans.DIRECTION.FORWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
+        if(this.real) {
+            trans.rdft(this.size, trans.DIRECTION.FORWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
+        }else{ // complex
+            trans.cdft(this.size, trans.DIRECTION.FORWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
+        }
     }
-
+    
     ifftInPlace(dataBuffer) {
-        trans.rdft(this.size, trans.DIRECTION.BACKWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
+        if(this.real) {
+            trans.rdft(this.size, trans.DIRECTION.BACKWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
+        }else{ // complex
+            trans.cdft(this.size, trans.DIRECTION.BACKWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
+        }
     }
 }
 module.exports = Ooura;
