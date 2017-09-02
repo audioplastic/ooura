@@ -11,8 +11,6 @@ var child = require('./child.js')
 exports.rdft = function(n, dir, aBuffer, ipBuffer, wBuffer) {
     let ip = new Int16Array(ipBuffer);
     let a = new Float64Array(aBuffer);
-    let w = new Float64Array(wBuffer);
-
     let nw = ip[0];
     let nc = ip[1];
 
@@ -20,13 +18,13 @@ exports.rdft = function(n, dir, aBuffer, ipBuffer, wBuffer) {
     {
         if (n > 4)
         {
-            child.bitrv2(n, ip.buffer, 2, a.buffer);
-            child.cftfsub(n, a.buffer, w.buffer);
-            child.rftfsub(n, a.buffer, nc, w.buffer, nw);
+            child.bitrv2(n, ipBuffer, 2, aBuffer);
+            child.cftfsub(n, aBuffer, wBuffer);
+            child.rftfsub(n, aBuffer, nc, wBuffer, nw);
         }
         else if (n == 4)
         {
-            child.cftfsub(n, a.buffer, w.buffer);
+            child.cftfsub(n, aBuffer, wBuffer);
         }
         let xi = a[0] - a[1];
         a[0] += a[1];
@@ -38,13 +36,13 @@ exports.rdft = function(n, dir, aBuffer, ipBuffer, wBuffer) {
         a[0] -= a[1];
         if (n > 4)
         {
-            child.rftbsub(n, a.buffer, nc, w.buffer, nw);
-            child.bitrv2(n, ip.buffer, 2, a.buffer);
-            child.cftbsub(n, a.buffer, w.buffer);
+            child.rftbsub(n, aBuffer, nc, wBuffer, nw);
+            child.bitrv2(n, ipBuffer, 2, aBuffer);
+            child.cftbsub(n, aBuffer, wBuffer);
         }
         else if (n == 4)
         {
-            child.cftfsub(n, a.buffer, w.buffer);
+            child.cftfsub(n, aBuffer, wBuffer);
         }
     }
 }
