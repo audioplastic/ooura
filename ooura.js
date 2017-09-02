@@ -112,6 +112,40 @@ class Ooura {
         data.set(  this.internal.map(x => x * 2/this.size)  );
     }
 
+    xfftComplex(direction, reIpBuffer, imIpBuffer, reOpBuffer, imOpBuffer) {
+        let reIp = new Float64Array(reIpBuffer);
+        let imIp = new Float64Array(imIpBuffer);
+        let reOp = new Float64Array(reOpBuffer);
+        let imOp = new Float64Array(imOpBuffer);
+
+        //pack complex input into buffer
+        let nn = 0;
+        let mm = 0;
+        while (nn != this.size) {
+            this.internal[mm++]=reIp[nn];
+            this.internal[mm++]=-imIp[nn++];
+        }
+
+        trans.cdft(this.size, direction, this.internal.buffer, this.ip.buffer, this.w.buffer);
+
+        //de-interleave data into output
+        nn = 0;
+        mm = 0;
+        while (nn != this.size) {
+            reOp[nn] = this.internal[mm++];
+            imOp[nn++] = -this.internal[mm++];
+        }
+    }
+
+    fftComplex(reIpBuffer, imIpBuffer, reOpBuffer, imOpBuffer) {
+        xfftComplex(trans.DIRECTION.FORWARDS, reIpBuffer, imIpBuffer, reOpBuffer, imOpBuffer);
+    }
+
+    ifftComplex(reIpBuffer, imIpBuffer, reOpBuffer, imOpBuffer) {
+        xfftComplex(trans.DIRECTION.BACKWARDS, reIpBuffer, imIpBuffer, reOpBuffer, imOpBuffer);
+    }
+
+
     // Below: No-nonsense thin wrappers around the interleaved in-place data
     // representation with no scaling, for maximum throughput.
     fftInPlaceReal(dataBuffer) {
