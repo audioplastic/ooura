@@ -1,5 +1,3 @@
-// TODO: REMOVE UNECCESARY VIEWS
-
 const DIRECTION = {
     "FORWARDS": +1,
     "BACKWARDS": -1
