@@ -138,11 +138,17 @@ class Ooura {
     }
 
     fftComplex(reIpBuffer, imIpBuffer, reOpBuffer, imOpBuffer) {
-        xfftComplex(trans.DIRECTION.FORWARDS, reIpBuffer, imIpBuffer, reOpBuffer, imOpBuffer);
+        this.xfftComplex(trans.DIRECTION.FORWARDS, reIpBuffer, imIpBuffer, reOpBuffer, imOpBuffer);
     }
 
     ifftComplex(reIpBuffer, imIpBuffer, reOpBuffer, imOpBuffer) {
-        xfftComplex(trans.DIRECTION.BACKWARDS, reIpBuffer, imIpBuffer, reOpBuffer, imOpBuffer);
+        this.xfftComplex(trans.DIRECTION.BACKWARDS, reIpBuffer, imIpBuffer, reOpBuffer, imOpBuffer);
+        let reOp = new Float64Array(reOpBuffer);
+        let imOp = new Float64Array(imOpBuffer);
+        for(let nn=0; nn<this.size/2; ++nn) {
+            reOp[nn] = reOp[nn] * 2/this.size;
+            imOp[nn] = imOp[nn] * 2/this.size;
+        }
     }
 
 

@@ -55,6 +55,6 @@ exports.cdft = function(n, dir, aBuffer, ipBuffer, wBuffer) {
             child.cftbsub(n, aBuffer, wBuffer);
         }
     } else if (n == 4) {
-        cftfsub(n, aBuffer, wBuffer);
+        child.cftfsub(n, aBuffer, wBuffer);
     }
 }
