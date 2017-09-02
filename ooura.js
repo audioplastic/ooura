@@ -7,6 +7,10 @@ class Ooura {
         assert(  Ooura.isPowerOf2(size) );
 
         this.real = (info.type === "real");
+        if (!this.real) {
+            assert(info.type === "complex"); // sanity
+        }
+
         this.size = size;
         this.ip = new Int16Array( 2 + Math.sqrt(size) );
         this.w = new Float64Array(size/2);
@@ -15,8 +19,17 @@ class Ooura {
         init.makewt(size/4, this.ip.buffer, this.w.buffer);
 
         // perform additional modification if real
-        if (info.type == "real") {
+        if (this.real) {
             init.makect(size/4, this.ip.buffer, this.w.buffer, size/4)
+            this.fft = this.fftReal;
+            this.ifft = this.ifftReal;
+            this.fftInPlace = this.fftInPlaceReal;
+            this.ifftInPlace = this.ifftInPlaceReal;
+        } else {
+            this.fft = this.fftComplex;
+            this.ifft = this.ifftComplex;
+            this.fftInPlace = this.fftInPlaceComplex;
+            this.ifftInPlace = this.ifftInPlaceComplex;
         }
     }
 
@@ -56,7 +69,8 @@ class Ooura {
         return new Float64Array(this.getVectorSize());
     }
 
-    fft(dataBuffer, reBuffer, imBuffer) {
+    // Functions below here should be called via their aliases defined in the ctor
+    fftReal(dataBuffer, reBuffer, imBuffer) {
         let data = new Float64Array(dataBuffer);
         this.internal.set(data);
 
@@ -79,7 +93,7 @@ class Ooura {
         im[this.size/2] = 0.0;
     }
 
-    ifft(dataBuffer, reBuffer, imBuffer) {
+    ifftReal(dataBuffer, reBuffer, imBuffer) {
         let im = new Float64Array(imBuffer);
         let re = new Float64Array(reBuffer);
 
@@ -100,20 +114,21 @@ class Ooura {
 
     // Below: No-nonsense thin wrappers around the interleaved in-place data
     // representation with no scaling, for maximum throughput.
-    fftInPlace(dataBuffer) {
-        if(this.real) {
-            trans.rdft(this.size, trans.DIRECTION.FORWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
-        }else{ // complex
-            trans.cdft(this.size, trans.DIRECTION.FORWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
-        }
+    fftInPlaceReal(dataBuffer) {
+        trans.rdft(this.size, trans.DIRECTION.FORWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
     }
-    
-    ifftInPlace(dataBuffer) {
-        if(this.real) {
-            trans.rdft(this.size, trans.DIRECTION.BACKWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
-        }else{ // complex
-            trans.cdft(this.size, trans.DIRECTION.BACKWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
-        }
+
+    fftInPlaceComplex(dataBuffer) {
+        trans.cdft(this.size, trans.DIRECTION.FORWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
     }
+
+    ifftInPlaceReal(dataBuffer) {
+        trans.rdft(this.size, trans.DIRECTION.BACKWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
+    }
+
+    ifftInPlaceComplex(dataBuffer) {
+        trans.cdft(this.size, trans.DIRECTION.BACKWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
+    }
+
 }
 module.exports = Ooura;
