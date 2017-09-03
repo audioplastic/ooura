@@ -29,7 +29,7 @@ var ooura = require('ooura');
 // Set up an input signal of size 8;
 let input = new Float64Array([1,2,3,4,1,2,3,4]);
 
-// Set up the fft object and use a helper to generate an output array
+// Set up the FFT object and use a helper to generate an output array
 // of correct length and type.
 let oo = new ooura(input.length, {"type":"real", "radix":4});
 let output = oo.scalarArrayFactory();
@@ -50,7 +50,7 @@ console.log("im = " + im);
 console.log("op = " + output);
 ```
 
-This yeilds the following output to the console . .
+This yields the following output to the console . .
 
 ```
 ip = 1,2,3,4,1,2,3,4
@@ -60,7 +60,7 @@ op = 1,2,3,4,1,2,3,4
 ```
 
 ### Usage: complex
-Complex FFT is also possible with this package. Simply initialize the FFT object specifying a complex type FFT.
+Complex FFT is also possible with this package. Simply initialise the FFT object specifying a complex type FFT.
 
 ```js
 var ooura = require('ooura');
