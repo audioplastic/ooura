@@ -10,7 +10,7 @@ Ultra fast 1D real/complex FFT with simple interface.
 | Travis <img src="https://s3-us-west-1.amazonaws.com/sweeper-production-brand-logo/apple.png" height="20px;"/> | [![Build Status](https://travis-ci.org/audioplastic/ooura.svg?branch=master)](https://travis-ci.org/audioplastic/ooura) | [![Build Status](https://travis-ci.org/audioplastic/ooura.svg?branch=develop)](https://travis-ci.org/audioplastic/ooura) |
 | Coveralls | [![Coverage Status](https://coveralls.io/repos/github/audioplastic/ooura/badge.svg?branch=master)](https://coveralls.io/github/audioplastic/ooura?branch=master) | [![Coverage Status](https://coveralls.io/repos/github/audioplastic/ooura/badge.svg?branch=develop)](https://coveralls.io/github/audioplastic/ooura?branch=develop) |
 
-This is a dependency-free Javascript version of Takuya Ooura's FFT algorithms derived from the [C/Fortran FFT implementation](http://www.kurims.kyoto-u.ac.jp/~ooura/fft.html). I wanted a fast 1D FFT implementation in Javascript that I can trust for audio work, and the Ooura implementation is a very portable and reasonable performant FFT implementation that lends itself well to a porting.
+This is a dependency-free Javascript version of Takuya Ooura's FFT algorithms derived from the [C/Fortran FFT implementation](http://www.kurims.kyoto-u.ac.jp/~ooura/fft.html). I wanted a fast 1D FFT implementation in Javascript, and the Ooura implementation is a very portable and performant FFT implementation that lends itself well to a porting.
 
 ### Performance
 ![latest performance](https://github.com/audioplastic/fft-js-benchmark/raw/master/img/3-9-2017.png)
@@ -20,8 +20,8 @@ For a wide range of useful FFT sizes, ooura has higher throughput than other Nod
 ### Correctness
 This implementation has been tested using power-of-2 FFT sizes against trusted reference values (however, I accept no responsibility if this trashes your app, or for any other damages). To test yourself, clone the repository from GitHub and run `npm install` to install (just to install the test runner), then run `npm test`.
 
-### Usage
-This implementation performs in place single sided real FFT and inverse-FFT on double precision javascript `TypedArray`. Below is an example of typical extraction of the split-complex spectrum, and back conversion to real array. Faster in-place interleaved FFT operations are also available for both real and complex transforms, which are documented in the [benchmarking](https://github.com/audioplastic/fft-js-benchmark).
+### Usage: Real
+This implementation performs real FFT and inverse-FFT using double precision javascript `TypedArray`. Below is an example of typical extraction of the split-complex spectrum, and back conversion to real array.
 
 ```js
 var ooura = require('ooura');
@@ -57,4 +57,52 @@ ip = 1,2,3,4,1,2,3,4
 re = 20,0,-4,0,-4
 im = 0,0,4,0,0
 op = 1,2,3,4,1,2,3,4
+```
+
+### Usage: complex
+Complex FFT is also possible with this package. Simply initialize the FFT object specifying a complex type FFT.
+
+```js
+var ooura = require('ooura');
+
+// Set up an input signal real and imag components
+let reInput = new Float64Array([1,2,3,4]);
+let imInput = new Float64Array([2,3,4,5]);
+
+// Set up the fft object and the empty arrays for transform results
+let oo = new ooura(reInput.length*2, {"type":"complex", "radix":4});
+let reOutput = new Float64Array(oo.size/2);
+let imOutput = new Float64Array(oo.size/2);
+let reBack = new Float64Array(oo.size/2);
+let imBack = new Float64Array(oo.size/2);
+
+//do some FFTing in both directions
+//note: reference underlying array buffers for in-place processing
+oo.fft(reInput.buffer, imInput.buffer, reOutput.buffer, imOutput.buffer);   //populates re and im from input
+oo.ifft(reOutput.buffer, imOutput.buffer, reBack.buffer, imBack.buffer); //populates output from re and im
+
+// look at the results and intermediate representation
+console.log("real input = " + reInput);
+console.log("imag input = " + imInput);
+
+console.log("re transformed = " + reOutput);
+console.log("im transformed = " + imOutput);
+
+console.log("re inverse transformed = " + reBack);
+console.log("im inverse transformed = " + imBack);
+```
+
+### Usage: in-place (real/complex)
+For the ultimate throughput, there are thin wrapper functions around the underlying FFT implementation that performs operations in place on interleaved complex or real buffers. The following example shows the complex FFT forwards and back, outputting the state of the data at each step to the console.
+
+```js
+var ooura = require('ooura');
+const nfft = 32;
+let oo = new Ooura(nfft, {"type":"complex", "radix":4} );
+let data = Float64Array.from(Array(nfft), (e,i)=>i+1);
+console.log(data);
+oo.fftInPlace(data.buffer);
+console.log(data);
+oo.ifftInPlace(data.buffer);
+console.log(data);
 ```

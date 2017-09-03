@@ -1,7 +1,7 @@
 {
   "name": "ooura",
   "version": "2.1.0",
-  "description": "A javascript port of the Ooura FFT implementation",
+  "description": "Ultra-fast real/complex FFT with simple interface",
   "repository": "https://github.com/audioplastic/ooura",
   "main": "ooura.js",
   "scripts": {
@@ -17,7 +17,9 @@
     "stft",
     "dsp",
     "overlap-add",
-    "ola"
+    "ola",
+    "real",
+    "complex"
   ],
   "author": "Nick Clark",
   "license": "ISC",
