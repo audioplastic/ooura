@@ -5,9 +5,16 @@
   "repository": "https://github.com/audioplastic/ooura",
   "main": "ooura.js",
   "scripts": {
-    "test": "jasmine",
+    "test": "xo && jasmine",
     "cover": "istanbul cover jasmine",
     "coveralls": "istanbul cover jasmine && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+  },
+  "xo": {
+    "rules":{
+      "one-var": 0,
+      "no-mixed-operators": 0
+    },
+    "ignores":["spec/**/*.js"]  
   },
   "keywords": [
     "fft",
@@ -26,6 +33,7 @@
   "devDependencies": {
     "coveralls": "^2.13.1",
     "istanbul": "^0.4.5",
-    "jasmine": "^2.8.0"
+    "jasmine": "^2.8.0",
+    "xo": "^0.18.2"
   }
 }
