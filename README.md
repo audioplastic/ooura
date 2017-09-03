@@ -3,10 +3,6 @@ Ooura FFT [![npm version](https://badge.fury.io/js/ooura.svg)](https://badge.fur
 
 Ultra fast 1D real/complex FFT with simple interface.
 
-```
-> npm install ooura
-```
-
 | Branch | Master | Develop |
 | :---    | :---   | :---    |
 | Circle CI <img src="http://www.taskcoach.org/images/linux.png" height="20px;"/> |  [![Circle Status](https://circleci.com/gh/audioplastic/ooura/tree/master.png?circle-token=63d6565456f01dec4f3c77d14bef5a1ce4e7143a)](https://circleci.com/gh/audioplastic/ooura) | [![Circle Status](https://circleci.com/gh/audioplastic/ooura/tree/develop.png?circle-token=63d6565456f01dec4f3c77d14bef5a1ce4e7143a)](https://circleci.com/gh/audioplastic/ooura) |
