@@ -1,7 +1,7 @@
 Ooura FFT [![npm version](https://badge.fury.io/js/ooura.svg)](https://badge.fury.io/js/ooura)
 ===============================
 
-Fast 1-dimensional complex FFT with simple interface.
+Ultra fast 1D real/complex FFT with simple interface.
 
 ```
 > npm install ooura
@@ -14,18 +14,18 @@ Fast 1-dimensional complex FFT with simple interface.
 | Travis <img src="https://s3-us-west-1.amazonaws.com/sweeper-production-brand-logo/apple.png" height="20px;"/> | [![Build Status](https://travis-ci.org/audioplastic/ooura.svg?branch=master)](https://travis-ci.org/audioplastic/ooura) | [![Build Status](https://travis-ci.org/audioplastic/ooura.svg?branch=develop)](https://travis-ci.org/audioplastic/ooura) |
 | Coveralls | [![Coverage Status](https://coveralls.io/repos/github/audioplastic/ooura/badge.svg?branch=master)](https://coveralls.io/github/audioplastic/ooura?branch=master) | [![Coverage Status](https://coveralls.io/repos/github/audioplastic/ooura/badge.svg?branch=develop)](https://coveralls.io/github/audioplastic/ooura?branch=develop) |
 
-This is a dependency-free js port of Takuya Ooura's [C/Fortran FFT implementation](http://www.kurims.kyoto-u.ac.jp/~ooura/fft.html). I wanted a fast 1D FFT implementation in Javascript that I can trust for audio work, and the Ooura implementation is a very portable and reasonable performant FFT implementation that lends itself well to a porting. There is plenty of scope for further optimisation.
+This is a dependency-free Javascript version of Takuya Ooura's FFT algorithms derived from the [C/Fortran FFT implementation](http://www.kurims.kyoto-u.ac.jp/~ooura/fft.html). I wanted a fast 1D FFT implementation in Javascript that I can trust for audio work, and the Ooura implementation is a very portable and reasonable performant FFT implementation that lends itself well to a porting.
 
 ### Performance
-![latest performance](https://github.com/audioplastic/fft-js-benchmark/raw/master/img/31-8-2017.png)
+![latest performance](https://github.com/audioplastic/fft-js-benchmark/raw/master/img/3-9-2017.png)
 
-For a wide range of useful FFT sizes, ooura has higher throughput than other Node FFT packages tested. There is still plenty of scope for optimisation road-mapped for future releases. For details on benchmarking, see [this](https://github.com/audioplastic/fft-js-benchmark) dedicated repository.
+For a wide range of useful FFT sizes, ooura has higher throughput than other Node FFT packages tested. There is still plenty of scope for optimisation road-mapped for future releases (radix-8, split radix). For details on benchmarking, see [this](https://github.com/audioplastic/fft-js-benchmark) dedicated repository.
 
 ### Correctness
 This implementation has been tested using power-of-2 FFT sizes against trusted reference values (however, I accept no responsibility if this trashes your app, or for any other damages). To test yourself, clone the repository from GitHub and run `npm install` to install (just to install the test runner), then run `npm test`.
 
 ### Usage
-This implementation performs in place single sided FFT and inverse-FFT on double precision javascript `TypedArray`. Below is an example of typical extraction of the split-complex spectrum, and back conversion. Faster in-place interleaved FFT operations are also available.
+This implementation performs in place single sided real FFT and inverse-FFT on double precision javascript `TypedArray`. Below is an example of typical extraction of the split-complex spectrum, and back conversion to real array. Faster in-place interleaved FFT operations are also available for both real and complex transforms, which are documented in the [benchmarking](https://github.com/audioplastic/fft-js-benchmark).
 
 ```js
 var ooura = require('ooura');
@@ -35,14 +35,14 @@ let input = new Float64Array([1,2,3,4,1,2,3,4]);
 
 // Set up the fft object and use a helper to generate an output array
 // of correct length and type.
-let oo = new ooura(input.length);
+let oo = new ooura(input.length, {"type":"real", "radix":4});
 let output = oo.scalarArrayFactory();
 
 //helper to get single sided complex arrays
 let re = oo.vectorArrayFactory();
 let im = oo.vectorArrayFactory();
 
-//do some FFTing in both directions
+//do some FFTing in both directions (using the built in helper functions to get senseful I/O)
 //note: reference underlying array buffers for in-place processing
 oo.fft(input.buffer, re.buffer, im.buffer);   //populates re and im from input
 oo.ifft(output.buffer, re.buffer, im.buffer); //populates output from re and im
