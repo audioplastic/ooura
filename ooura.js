@@ -1,9 +1,7 @@
 const assert = require('assert');
-const init = require('./init.js');
-const trans = require('./transform.js');
 
 class Ooura {
-	constructor(size, info = {type: 'real', radix: 4}) {
+	constructor(size, info = {type: 'real', radix: 8}) {
 		assert(Ooura.isPowerOf2(size));
 
 		this.real = (info.type === 'real');
@@ -16,6 +14,19 @@ class Ooura {
 		this.w = new Float64Array(size / 2);
 		this.internal = new Float64Array(size);
 
+		let init;
+		if (info.radix === 4) {
+			init = require('./lib/radix-4/init.js');
+			this.trans = require('./lib/radix-4/transform.js');
+		} else if (info.radix === 8) {
+			init = require('./lib/radix-8/init.js');
+			this.trans = require('./lib/radix-8/transform.js');
+		} else if (info.radix === 'split') {
+			init = null;
+			this.trans = null;
+		} else {
+			assert(0);
+		}
 		init.makewt(size / 4, this.ip.buffer, this.w.buffer);
 
 		// Perform additional modification if real
@@ -76,7 +87,7 @@ class Ooura {
 		const data = new Float64Array(dataBuffer);
 		this.internal.set(data);
 
-		trans.rdft(this.size, trans.DIRECTION.FORWARDS, this.internal.buffer, this.ip.buffer, this.w.buffer);
+		this.trans.rdft(this.size, this.trans.DIRECTION.FORWARDS, this.internal.buffer, this.ip.buffer, this.w.buffer);
 
 		const im = new Float64Array(imBuffer);
 		const re = new Float64Array(reBuffer);
@@ -108,7 +119,7 @@ class Ooura {
 		}
 		this.internal[1] = re[this.size / 2];
 
-		trans.rdft(this.size, trans.DIRECTION.BACKWARDS, this.internal.buffer, this.ip.buffer, this.w.buffer);
+		this.trans.rdft(this.size, this.trans.DIRECTION.BACKWARDS, this.internal.buffer, this.ip.buffer, this.w.buffer);
 
 		const data = new Float64Array(dataBuffer);
 		data.set(this.internal.map(x => x * 2 / this.size));
@@ -128,7 +139,7 @@ class Ooura {
 			this.internal[mm++] = -imIp[nn++];
 		}
 
-		trans.cdft(this.size, direction, this.internal.buffer, this.ip.buffer, this.w.buffer);
+		this.trans.cdft(this.size, direction, this.internal.buffer, this.ip.buffer, this.w.buffer);
 
 		// De-interleave data into output
 		nn = 0;
@@ -140,11 +151,11 @@ class Ooura {
 	}
 
 	fftComplex(reIpBuffer, imIpBuffer, reOpBuffer, imOpBuffer) {
-		this.xfftComplex(trans.DIRECTION.FORWARDS, reIpBuffer, imIpBuffer, reOpBuffer, imOpBuffer);
+		this.xfftComplex(this.trans.DIRECTION.FORWARDS, reIpBuffer, imIpBuffer, reOpBuffer, imOpBuffer);
 	}
 
 	ifftComplex(reIpBuffer, imIpBuffer, reOpBuffer, imOpBuffer) {
-		this.xfftComplex(trans.DIRECTION.BACKWARDS, reIpBuffer, imIpBuffer, reOpBuffer, imOpBuffer);
+		this.xfftComplex(this.trans.DIRECTION.BACKWARDS, reIpBuffer, imIpBuffer, reOpBuffer, imOpBuffer);
 		const reOp = new Float64Array(reOpBuffer);
 		const imOp = new Float64Array(imOpBuffer);
 		for (let nn = 0; nn < this.size / 2; ++nn) {
@@ -156,19 +167,19 @@ class Ooura {
 	// Below: No-nonsense thin wrappers around the interleaved in-place data
 	// representation with no scaling, for maximum throughput.
 	fftInPlaceReal(dataBuffer) {
-		trans.rdft(this.size, trans.DIRECTION.FORWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
+		this.trans.rdft(this.size, this.trans.DIRECTION.FORWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
 	}
 
 	fftInPlaceComplex(dataBuffer) {
-		trans.cdft(this.size, trans.DIRECTION.FORWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
+		this.trans.cdft(this.size, this.trans.DIRECTION.FORWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
 	}
 
 	ifftInPlaceReal(dataBuffer) {
-		trans.rdft(this.size, trans.DIRECTION.BACKWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
+		this.trans.rdft(this.size, this.trans.DIRECTION.BACKWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
 	}
 
 	ifftInPlaceComplex(dataBuffer) {
-		trans.cdft(this.size, trans.DIRECTION.BACKWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
+		this.trans.cdft(this.size, this.trans.DIRECTION.BACKWARDS, dataBuffer, this.ip.buffer, this.w.buffer);
 	}
 
 }

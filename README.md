@@ -105,3 +105,4 @@ The codebase is linted during testing using [XO](https://github.com/sindresorhus
 2) `one-var` is disabled. I understand the reasoning for this rule, but this code is ported from C, where a common idiom is to declare all variables at the top of each function. Disabling this rule allows the JS and C versions of the code to be more easily comparable.
 
 The spec folder is also excluded from XO linting as part of `npm test` due to errors raised in relation to the way that the Jasmine test framework operates. It is still recommended to manually run `xo --fix spec/*` after modifying unit tests to maintain a level of consistency.
+q
