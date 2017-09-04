@@ -1,6 +1,5 @@
-Ooura FFT
+Ooura FFT [![npm version](https://badge.fury.io/js/ooura.svg)](https://badge.fury.io/js/ooura)
 ===============================
- [![npm version](https://badge.fury.io/js/ooura.svg)](https://badge.fury.io/js/ooura) [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 
 Ultra fast 1D real/complex FFT with simple interface.
 
@@ -108,3 +107,10 @@ oo.ifftInPlace(data.buffer);
 console.log(data); // Notice the fast in-place methods do not scale the output
 console.log(data.map(x=>x*2/oo.size)); // ... but that is simple to do manually
 ```
+
+### Code Style
+The codebase is linted during testing using [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo), but with 2 overrides:
+1) `no-mixed-operators` is disabled. Conventional XO linting requires only one type of arithmetic operator per command unless each operator is explicitly separated using parentheses. For DSP code, this causes a lot of unnecessary verbosity. If you're an engineer with a grasp of the basic order of operations (BODMAS), then redundant parentheses are bad style.
+2) `one-var` is disabled. I understand the reasoning for this rule, but this code is ported from C, where a common idiom is to declare all variables at the top of each function. Disabling this rule allows the JS and C versions of the code to be more easily comparable.
+
+The spec folder is also excluded from XO linting as part of `npm test` due to errors raised in relation to the way that the Jasmine test framework operated. However, it is still recommended to manually run `xo --fix spec/*` after modifying unit tests to maintain a level of consistency.
