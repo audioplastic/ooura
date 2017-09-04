@@ -99,11 +99,12 @@ For the ultimate throughput, there are thin wrapper functions around the underly
 ```js
 var ooura = require('ooura');
 const nfft = 32;
-let oo = new Ooura(nfft, {"type":"complex", "radix":4} );
+let oo = new ooura(nfft, {"type":"complex", "radix":4} );
 let data = Float64Array.from(Array(nfft), (e,i)=>i+1);
 console.log(data);
 oo.fftInPlace(data.buffer);
 console.log(data);
 oo.ifftInPlace(data.buffer);
-console.log(data);
+console.log(data); // Notice the fast in-place methods do not scale the output
+console.log(data.map(x=>x*2/oo.size)); // ... but that is simple to do manually
 ```
