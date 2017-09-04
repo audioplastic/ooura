@@ -1,7 +1,7 @@
 const assert = require('assert');
 
 class Ooura {
-	constructor(size, info = {type: 'real', radix: 8}) {
+	constructor(size, info = {type: 'real', radix: 4}) {
 		assert(Ooura.isPowerOf2(size));
 
 		this.real = (info.type === 'real');
