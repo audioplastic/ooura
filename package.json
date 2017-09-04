@@ -1,6 +1,6 @@
 {
   "name": "ooura",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "Ultra-fast real/complex FFT with simple interface",
   "repository": "https://github.com/audioplastic/ooura",
   "main": "ooura.js",
