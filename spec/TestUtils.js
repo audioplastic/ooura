@@ -2,6 +2,8 @@ const assert = require('assert');
 const Ooura = require('../ooura.js');
 
 const TOLERANCE = 1e-8;
+const RADICES = [4, 8];
+exports.RADICES = RADICES;
 
 exports.CheckBuffers = function (a, b) {
 	assert.equal(a.length, b.length);
@@ -14,13 +16,13 @@ exports.CheckBuffers = function (a, b) {
 	return diffs;
 };
 
-exports.TestCorrectnessReal = function (reRef, imRef) {
+exports.TestCorrectnessReal = function (reRef, imRef, rdx) {
 	assert.equal(reRef.length, imRef.length);
 	const size = Ooura.scalarSize(reRef.length);
 
 	const input = Float64Array.from(Array(size), (e, i) => i + 1); // Fancy-pants way of making 1,2,3, . .
 
-	const oo = new Ooura(size, {type: 'real', radix: Number(process.env.RADIX)});
+	const oo = new Ooura(size, {type: 'real', radix: rdx});
 	const re = oo.vectorArrayFactory();
 	const im = oo.vectorArrayFactory();
 	const result = new Object();
@@ -37,7 +39,7 @@ exports.TestCorrectnessReal = function (reRef, imRef) {
 	return result;
 };
 
-exports.TestCorrectnessComplex = function (reRef, imRef) {
+exports.TestCorrectnessComplex = function (reRef, imRef, rdx) {
 	assert.equal(reRef.length, imRef.length);
 	const size = reRef.length + imRef.length;
 
@@ -45,7 +47,7 @@ exports.TestCorrectnessComplex = function (reRef, imRef) {
 	let imIp = Float64Array.from(Array(size / 2), (e, i) => i + 1);
 	imIp = imIp.map(x => x + 1);
 
-	const oo = new Ooura(size, {type: 'complex', radix: Number(process.env.RADIX)});
+	const oo = new Ooura(size, {type: 'complex', radix: rdx});
 	const reOp = new Float64Array(size / 2);
 	const imOp = new Float64Array(size / 2);
 	const result = new Object();

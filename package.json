@@ -5,9 +5,9 @@
   "repository": "https://github.com/audioplastic/ooura",
   "main": "ooura.js",
   "scripts": {
-    "test": "xo && RADIX=4 jasmine && RADIX=8 jasmine",
+    "test": "xo && jasmine",
     "cover": "istanbul cover jasmine",
-    "coveralls": "RADIX=4 istanbul cover jasmine && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "coveralls": "istanbul cover jasmine && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "xo": {
     "rules": {
