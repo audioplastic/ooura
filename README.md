@@ -20,7 +20,7 @@ For a wide range of useful FFT sizes, ooura has higher throughput than other Nod
 ### Correctness
 This implementation has been tested using power-of-2 FFT sizes against trusted reference values (however, I accept no responsibility if this trashes your app, or for any other damages). To test yourself, clone the repository from GitHub and run `npm install` to install (just to install the test runner), then run `npm test`.
 
-### Usage: Real
+### Usage: Real [![XO code style](https://img.shields.io/badge/try_me-RunKit-orange.svg)](https://runkit.com/audioplastic/ooura-real)
 This implementation performs real FFT and inverse-FFT using double precision javascript `TypedArray`. Below is an example of typical extraction of the split-complex spectrum, and back conversion to real array.
 
 ```js
@@ -50,16 +50,7 @@ console.log("im = " + im);
 console.log("op = " + output);
 ```
 
-This yields the following output to the console . .
-
-```
-ip = 1,2,3,4,1,2,3,4
-re = 20,0,-4,0,-4
-im = 0,0,4,0,0
-op = 1,2,3,4,1,2,3,4
-```
-
-### Usage: complex
+### Usage: complex [![XO code style](https://img.shields.io/badge/try_me-RunKit-orange.svg)](https://runkit.com/audioplastic/ooura-real)
 Complex FFT is also possible with this package. Simply initialise the FFT object specifying a complex type FFT.
 
 ```js
@@ -92,7 +83,7 @@ console.log("re inverse transformed = " + reBack);
 console.log("im inverse transformed = " + imBack);
 ```
 
-### Usage: in-place (real/complex)
+### Usage: in-place (real/complex) [![XO code style](https://img.shields.io/badge/try_me-RunKit-orange.svg)](https://runkit.com/audioplastic/ooura-in-place)
 For the ultimate throughput, there are thin wrapper functions around the underlying FFT implementation that performs operations in place on interleaved complex or real buffers. The following example shows the complex FFT forwards and back, outputting the state of the data at each step to the console.
 
 ```js
@@ -108,9 +99,9 @@ console.log(data); // Notice the fast in-place methods do not scale the output
 console.log(data.map(x=>x*2/oo.size)); // ... but that is simple to do manually
 ```
 
-### Code Style
-The codebase is linted during testing using [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo), but with 2 overrides:
-1) `no-mixed-operators` is disabled. Conventional XO linting requires only one type of arithmetic operator per command unless each operator is explicitly separated using parentheses. For DSP code, this causes a lot of unnecessary verbosity. If you're an engineer with a grasp of the basic order of operations (BODMAS), then redundant parentheses are bad style.
+### Coding Style [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
+The codebase is linted during testing using [XO](https://github.com/sindresorhus/xo), but with 2 overrides:
+1) `no-mixed-operators` is disabled. Conventional [XO](https://github.com/sindresorhus/xo) linting requires only one type of arithmetic operator per command unless each operator is explicitly separated using parentheses. For DSP code, this causes a lot of unnecessary verbosity. If you're an engineer with a grasp of the basic order of operations (BODMAS), then redundant parentheses are bad style.
 2) `one-var` is disabled. I understand the reasoning for this rule, but this code is ported from C, where a common idiom is to declare all variables at the top of each function. Disabling this rule allows the JS and C versions of the code to be more easily comparable.
 
 The spec folder is also excluded from XO linting as part of `npm test` due to errors raised in relation to the way that the Jasmine test framework operated. However, it is still recommended to manually run `xo --fix spec/*` after modifying unit tests to maintain a level of consistency.
