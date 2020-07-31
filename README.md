@@ -105,3 +105,27 @@ The codebase is linted during testing using [XO](https://github.com/sindresorhus
 2) `one-var` is disabled. I understand the reasoning for this rule, but this code is ported from C, where a common idiom is to declare all variables at the top of each function. Disabling this rule allows the JS and C versions of the code to be more easily comparable.
 
 The spec folder is also excluded from XO linting as part of `npm test` due to errors raised in relation to the way that the Jasmine test framework operated. However, it is still recommended to manually run `xo --fix spec/*` after modifying unit tests to maintain a level of consistency.
+
+### Typescript Support
+You can use ooura in typescript like below. 
+```ts
+import Ooura from "ooura";
+
+const input = new Float64Array([1,2,3,4,1,2,3,4]);
+
+const oo = new Ooura(input.length, {type:"real", radix:4});
+const output = oo.scalarArrayFactory();
+
+const re = oo.vectorArrayFactory();
+const im = oo.vectorArrayFactory();
+
+oo.fft(input.buffer, re.buffer, im.buffer);
+oo.ifft(output.buffer, re.buffer, im.buffer);
+
+console.log(`ip: ${input}`);
+console.log(`re: ${re}`);
+console.log(`im: ${im}`);
+console.log(`op: ${output}`);
+```
+
+(you shold set `target:node` because ooura use `assert` and `util`)
